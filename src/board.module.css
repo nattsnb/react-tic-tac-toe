@@ -1,5 +1,11 @@
 .wrapper{
-    background-color: darkorange;
+    background-color: black;
+    width: 606px;
+    height: 606px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
 }
 
 .row{

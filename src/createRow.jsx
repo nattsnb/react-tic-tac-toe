@@ -5,9 +5,11 @@ const CreateRow = ({ idArray }) => {
     return (
         <div className={styles.row}>
             {idArray.map((id) => (
-                <div
-                    key={id}
-                />
+                <div className={styles.field}
+                     key={id}>
+                    {id}
+                </div>
+
             ))}
         </div>
     )
