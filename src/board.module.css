@@ -1,13 +1,20 @@
-.wrapper{
-    background-color: black;
-    width: 606px;
-    height: 606px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
+.wrapper {
+  background-color: black;
+  width: 606px;
+  height: 606px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.row{
-    background-color: darkolivegreen;
+.row {
+  background-color: darkolivegreen;
+}
+
+.XField {
+  background-image: url("./images/cross.png");
+}
+
+.OField {
+  background-image: url("./images/circle.png");
 }

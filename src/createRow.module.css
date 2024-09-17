@@ -1,15 +1,16 @@
-.row{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.field {
-    display: flex;
-    background-color: white;
-    width: 200px;
-    height: 200px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+.emptyField {
+  display: flex;
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border: none;
 }
