@@ -2,11 +2,11 @@ import styles from "./row.module.css";
 import Button from "./button.jsx";
 import {useState} from "react";
 
-const Row = ({ rowOfFields, functionForButton }) => {
+const Row = ({ rowOfFields, handleClick }) => {
   return (
     <div className={styles.row}>
       {rowOfFields.map((field) => (
-        <Button key={field.id} id={field.id} onClick={functionForButton} />
+        <Button key={field.id} id={field.id} onClick={handleClick} />
       ))}
     </div>
   );

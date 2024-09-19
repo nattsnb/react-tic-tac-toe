@@ -1,4 +1,4 @@
-.wrapper {
+.board {
   background-color: black;
   width: 606px;
   height: 606px;
@@ -9,4 +9,16 @@
 
 .row {
   background-color: darkolivegreen;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.infoBox {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 200px;
 }
