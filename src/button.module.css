@@ -1,0 +1,18 @@
+.emptyField {
+    display: flex;
+    background-color: white;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.XField {
+    background-image: url("./images/cross.png");
+}
+
+.OField {
+    background-image: url("./images/circle.png");
+}
