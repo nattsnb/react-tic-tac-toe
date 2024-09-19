@@ -6,9 +6,9 @@ import { v4 as uuid } from "uuid";
 const initializeField = () => {
   return {
     id: uuid(),
-    value: null
-  }
-}
+    value: null,
+  };
+};
 
 const initialBoard = [
   [initializeField(), initializeField(), initializeField()],
@@ -17,23 +17,29 @@ const initialBoard = [
 ];
 
 const Board = () => {
-  const [turn, setTurn] = useState(0)
+  const [turn, setTurn] = useState(0);
 
   const makeMoveAndChangeTurn = (fieldId) => {
+    console.log("dupa")
+    console.log(turn)
+    console.log(fieldId)
     // find in board by fieldId
     if (turn === 0) {
       setTurn(1);
-
     } else {
       setTurn(0);
-
     }
   };
 
-
   return (
     <div className={styles.wrapper}>
-      {initialBoard.map(((singleRow) => <Row key={uuid()} rowOfFields={singleRow} functionForButton={makeMoveAndChangeTurn}/>))}
+      {initialBoard.map((singleRow) => (
+        <Row
+          key={uuid()}
+          rowOfFields={singleRow}
+          functionForButton={makeMoveAndChangeTurn}
+        />
+      ))}
     </div>
   );
 };

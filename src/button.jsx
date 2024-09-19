@@ -1,13 +1,7 @@
 import styles from "./button.module.css";
 
+const Button = ({ id, onClick }) => {
+  return <button className={styles.emptyField} disabled={false} onClick={onClick}></button>;
+};
 
-const Button = ({ onClick }) => {
-    return (
-        <button
-            className={styles.emptyField}
-            disabled={false}
-        ></button>
-    )
-}
-
-export default Button
+export default Button;
