@@ -3,7 +3,6 @@ import Button from "./button.jsx";
 import {useState} from "react";
 
 const Row = ({ rowOfFields, functionForButton }) => {
-  const [count, setCount] = useState(0);
   return (
     <div className={styles.row}>
       {rowOfFields.map((field) => (

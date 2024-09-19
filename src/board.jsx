@@ -20,10 +20,7 @@ const Board = () => {
   const [turn, setTurn] = useState(0);
 
   const makeMoveAndChangeTurn = (fieldId) => {
-    console.log("dupa")
-    console.log(turn)
     console.log(fieldId)
-    // find in board by fieldId
     if (turn === 0) {
       setTurn(1);
     } else {
