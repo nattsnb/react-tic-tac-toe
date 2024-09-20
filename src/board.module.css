@@ -22,3 +22,11 @@
   width: 200px;
   height: 200px;
 }
+
+.FirstPlayerField {
+  background-image: url("./images/cross.png");
+}
+
+.SecondPlayerField {
+  background-image: url("./images/circle.png");
+}

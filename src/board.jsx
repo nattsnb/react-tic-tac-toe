@@ -21,15 +21,17 @@ const Board = () => {
   ];
 
   const makeMoveAndChangeTurn = (event) => {
-    if (event.target.disabled !== true) {
+    if (!event.target.disabled) {
       if (turn === 0) {
         event.target.value = 0;
         turn = 1;
         event.target.disabled = true;
+        event.target.classList.add(styles.FirstPlayerField)
       } else {
         event.target.value = 1;
         turn = 0;
         event.target.disabled = true;
+        event.target.classList.add(styles.SecondPlayerField)
       }
     }
   };
