@@ -1,5 +1,5 @@
 import styles from "./app.module.css";
-import Board from "./board.jsx";
+import Board from "./Board";
 
 const App = () => {
   return <Board />;

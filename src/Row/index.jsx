@@ -1,16 +1,15 @@
 import styles from "./row.module.css";
-import Button from "./button.jsx";
-import { useState } from "react";
+import Field from "../Field";
 
-const Row = ({ rowOfFields, handleClick }) => {
+const Row = ({ rowOfFields, makeMoveAndChangeTurn }) => {
   return (
     <div className={styles.row}>
       {rowOfFields.map((field) => (
-        <Button
+        <Field
           key={field.id}
           id={field.id}
-          onClick={handleClick}
-          originalField={field}
+          onClick={makeMoveAndChangeTurn}
+          fieldValue={field.value}
         />
       ))}
     </div>

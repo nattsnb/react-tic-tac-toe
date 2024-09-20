@@ -24,9 +24,9 @@
 }
 
 .FirstPlayerField {
-  background-image: url("./images/cross.png");
+  background-image: url("../images/cross.png");
 }
 
 .SecondPlayerField {
-  background-image: url("./images/circle.png");
+  background-image: url("../images/circle.png");
 }
