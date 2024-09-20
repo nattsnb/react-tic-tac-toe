@@ -3,6 +3,7 @@ import Row from "./row.jsx";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import button from "./button.jsx";
+import { MouseEvent } from "react";
 
 const initializeField = () => {
   return {
@@ -11,22 +12,24 @@ const initializeField = () => {
   };
 };
 
-const initialBoard = [
-  [initializeField(), initializeField(), initializeField()],
-  [initializeField(), initializeField(), initializeField()],
-  [initializeField(), initializeField(), initializeField()],
-];
-
 const Board = () => {
-  const [turn, setTurn] = useState(0);
+  let turn = 0;
+  const initialBoard = [
+    [initializeField(), initializeField(), initializeField()],
+    [initializeField(), initializeField(), initializeField()],
+    [initializeField(), initializeField(), initializeField()],
+  ];
 
-  const makeMoveAndChangeTurn = (fieldId) => {
-    console.log(button.disabled)
-    if (button.disabled===false) {
+  const makeMoveAndChangeTurn = (event) => {
+    if (event.target.disabled !== true) {
       if (turn === 0) {
-        setTurn(1);
+        event.target.value = 0;
+        turn = 1;
+        event.target.disabled = true;
       } else {
-        setTurn(0);
+        event.target.value = 1;
+        turn = 0;
+        event.target.disabled = true;
       }
     }
   };
