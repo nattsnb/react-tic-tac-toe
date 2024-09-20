@@ -12,13 +12,15 @@ const initializeField = () => {
   };
 };
 
+const initialBoard = [
+  [initializeField(), initializeField(), initializeField()],
+  [initializeField(), initializeField(), initializeField()],
+  [initializeField(), initializeField(), initializeField()],
+];
+
 const Board = () => {
+  const  [board, changeBoard] = useState(initialBoard)
   let turn = 0;
-  const initialBoard = [
-    [initializeField(), initializeField(), initializeField()],
-    [initializeField(), initializeField(), initializeField()],
-    [initializeField(), initializeField(), initializeField()],
-  ];
 
   const checkIfWon = () => {
     if (
@@ -98,17 +100,15 @@ const Board = () => {
       if (!event.target.disabled) {
         if (turn === 0) {
           console.log(event.target.value)
-          event.target.value = 0;
+          event.target.value = changeBoard(0);
           console.log(event.target.value)
           console.log(initialBoard[0][0])
           turn = 1;
-          event.target.disabled = true;
           event.target.classList.add(styles.FirstPlayerField);
           outcome = checkIfWon();
         } else {
           event.target.value = 1;
           turn = 0;
-          event.target.disabled = true;
           event.target.classList.add(styles.SecondPlayerField);
           outcome = checkIfWon();
         }

@@ -6,7 +6,7 @@ const Button = ({ id, onClick, value }) => {
     <button
       className={styles.emptyField}
       value={value}
-      disabled={false}
+      disabled={value !== null}
       onClick={() => onClick(event)}
     ></button>
   );
