@@ -20,20 +20,107 @@ const Board = () => {
     [initializeField(), initializeField(), initializeField()],
   ];
 
-  const makeMoveAndChangeTurn = (event) => {
-    if (!event.target.disabled) {
-      if (turn === 0) {
-        event.target.value = 0;
-        turn = 1;
-        event.target.disabled = true;
-        event.target.classList.add(styles.FirstPlayerField)
-      } else {
-        event.target.value = 1;
-        turn = 0;
-        event.target.disabled = true;
-        event.target.classList.add(styles.SecondPlayerField)
-      }
+  const checkIfWon = () => {
+    if (
+      initialBoard[0][0].value !== null &&
+      initialBoard[0][0].value === initialBoard[0][1].value &&
+      initialBoard[0][1].value === initialBoard[0][2].value
+    ) {
+      return initialBoard[0][0].value;
+    } else if (
+      initialBoard[1][0].value !== null &&
+      initialBoard[1][0].value === initialBoard[1][1].value &&
+      initialBoard[1][1].value === initialBoard[1][2].value
+    ) {
+      return initialBoard[1][0].value;
+    } else if (
+      initialBoard[2][0].value !== null &&
+      initialBoard[2][0].value === initialBoard[2][1].value &&
+      initialBoard[2][1].value === initialBoard[2][2].value
+    ) {
+      return initialBoard[2][0].value;
+    } else if (
+      initialBoard[0][0].value !== null &&
+      initialBoard[0][0].value === initialBoard[1][0].value &&
+      initialBoard[1][0].value === initialBoard[2][0].value
+    ) {
+      return initialBoard[0][0].value;
+    } else if (
+      initialBoard[0][1].value !== null &&
+      initialBoard[0][1].value === initialBoard[1][1].value &&
+      initialBoard[1][1].value === initialBoard[2][1].value
+    ) {
+      return initialBoard[0][1].value;
+    } else if (
+      initialBoard[0][2].value !== null &&
+      initialBoard[0][2].value === initialBoard[1][2].value &&
+      initialBoard[1][2].value === initialBoard[2][2].value
+    ) {
+      return initialBoard[0][2].value;
+    } else if (
+      initialBoard[0][0].value !== null &&
+      initialBoard[0][0].value === initialBoard[1][1].value &&
+      initialBoard[1][1].value === initialBoard[2][2].value
+    ) {
+      return initialBoard[0][0].value;
+    } else if (
+      initialBoard[0][2].value !== null &&
+      initialBoard[0][2].value === initialBoard[1][1].value &&
+      initialBoard[1][1].value === initialBoard[2][0].value
+    ) {
+      return initialBoard[0][2].value;
+    } else {
+      checkIfDraw();
     }
+  };
+
+  const checkIfDraw = () => {
+    if (
+      initialBoard[0][0].value !== null &&
+      initialBoard[0][1].value !== null &&
+      initialBoard[0][2].value !== null &&
+      initialBoard[1][0].value !== null &&
+      initialBoard[1][1].value !== null &&
+      initialBoard[1][2].value !== null &&
+      initialBoard[2][0].value !== null &&
+      initialBoard[2][1].value !== null &&
+      initialBoard[2][2].value !== null
+    ) {
+      return true;
+    } else {
+      return null;
+    }
+  };
+  let outcome = null;
+  const makeMoveAndChangeTurn = (event) => {
+    console.log(outcome);
+    if (!outcome) {
+      if (!event.target.disabled) {
+        if (turn === 0) {
+          event.target.value = 0;
+          turn = 1;
+          event.target.disabled = true;
+          event.target.classList.add(styles.FirstPlayerField);
+          outcome = checkIfWon();
+        } else {
+          event.target.value = 1;
+          turn = 0;
+          event.target.disabled = true;
+          event.target.classList.add(styles.SecondPlayerField);
+          outcome = checkIfWon();
+        }
+      }
+    } else if (outcome === true) {
+      showDraw();
+    } else {
+      showPlayerWon(outcome);
+    }
+  };
+  const showDraw = () => {
+    console.log("draw");
+  };
+  const showPlayerWon = (player) => {
+    console.log(`${player} won`);
   };
 
   return (
