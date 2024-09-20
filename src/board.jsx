@@ -12,65 +12,65 @@ const initializeField = () => {
   };
 };
 
-const initialBoard = [
-  [initializeField(), initializeField(), initializeField()],
-  [initializeField(), initializeField(), initializeField()],
-  [initializeField(), initializeField(), initializeField()],
-];
-
 const Board = () => {
-  const  [board, changeBoard] = useState(initialBoard)
+  const initialBoard = [
+    [initializeField(), initializeField(), initializeField()],
+    [initializeField(), initializeField(), initializeField()],
+    [initializeField(), initializeField(), initializeField()],
+  ];
+
+  const  [board, setBoard] = useState(initialBoard)
   let turn = 0;
 
   const checkIfWon = () => {
     if (
-      initialBoard[0][0].value !== null &&
-      initialBoard[0][0].value === initialBoard[0][1].value &&
-      initialBoard[0][1].value === initialBoard[0][2].value
+      board[0][0].value !== null &&
+      board[0][0].value === board[0][1].value &&
+      board[0][1].value === board[0][2].value
     ) {
-      return initialBoard[0][0].value;
+      return board[0][0].value;
     } else if (
-      initialBoard[1][0].value !== null &&
-      initialBoard[1][0].value === initialBoard[1][1].value &&
-      initialBoard[1][1].value === initialBoard[1][2].value
+      board[1][0].value !== null &&
+      board[1][0].value === board[1][1].value &&
+      board[1][1].value === board[1][2].value
     ) {
-      return initialBoard[1][0].value;
+      return board[1][0].value;
     } else if (
-      initialBoard[2][0].value !== null &&
-      initialBoard[2][0].value === initialBoard[2][1].value &&
-      initialBoard[2][1].value === initialBoard[2][2].value
+      board[2][0].value !== null &&
+      board[2][0].value === board[2][1].value &&
+      board[2][1].value === board[2][2].value
     ) {
-      return initialBoard[2][0].value;
+      return board[2][0].value;
     } else if (
-      initialBoard[0][0].value !== null &&
-      initialBoard[0][0].value === initialBoard[1][0].value &&
-      initialBoard[1][0].value === initialBoard[2][0].value
+      board[0][0].value !== null &&
+      board[0][0].value === board[1][0].value &&
+      board[1][0].value === board[2][0].value
     ) {
-      return initialBoard[0][0].value;
+      return board[0][0].value;
     } else if (
-      initialBoard[0][1].value !== null &&
-      initialBoard[0][1].value === initialBoard[1][1].value &&
-      initialBoard[1][1].value === initialBoard[2][1].value
+      board[0][1].value !== null &&
+      board[0][1].value === board[1][1].value &&
+      board[1][1].value === board[2][1].value
     ) {
-      return initialBoard[0][1].value;
+      return board[0][1].value;
     } else if (
-      initialBoard[0][2].value !== null &&
-      initialBoard[0][2].value === initialBoard[1][2].value &&
-      initialBoard[1][2].value === initialBoard[2][2].value
+      board[0][2].value !== null &&
+      board[0][2].value === board[1][2].value &&
+      board[1][2].value === board[2][2].value
     ) {
-      return initialBoard[0][2].value;
+      return board[0][2].value;
     } else if (
-      initialBoard[0][0].value !== null &&
-      initialBoard[0][0].value === initialBoard[1][1].value &&
-      initialBoard[1][1].value === initialBoard[2][2].value
+      board[0][0].value !== null &&
+      board[0][0].value === board[1][1].value &&
+      board[1][1].value === board[2][2].value
     ) {
-      return initialBoard[0][0].value;
+      return board[0][0].value;
     } else if (
-      initialBoard[0][2].value !== null &&
-      initialBoard[0][2].value === initialBoard[1][1].value &&
-      initialBoard[1][1].value === initialBoard[2][0].value
+      board[0][2].value !== null &&
+      board[0][2].value === board[1][1].value &&
+      board[1][1].value === board[2][0].value
     ) {
-      return initialBoard[0][2].value;
+      return board[0][2].value;
     } else {
       checkIfDraw();
     }
@@ -78,15 +78,15 @@ const Board = () => {
 
   const checkIfDraw = () => {
     if (
-      initialBoard[0][0].value !== null &&
-      initialBoard[0][1].value !== null &&
-      initialBoard[0][2].value !== null &&
-      initialBoard[1][0].value !== null &&
-      initialBoard[1][1].value !== null &&
-      initialBoard[1][2].value !== null &&
-      initialBoard[2][0].value !== null &&
-      initialBoard[2][1].value !== null &&
-      initialBoard[2][2].value !== null
+      board[0][0].value !== null &&
+      board[0][1].value !== null &&
+      board[0][2].value !== null &&
+      board[1][0].value !== null &&
+      board[1][1].value !== null &&
+      board[1][2].value !== null &&
+      board[2][0].value !== null &&
+      board[2][1].value !== null &&
+      board[2][2].value !== null
     ) {
       return true;
     } else {
@@ -94,14 +94,22 @@ const Board = () => {
     }
   };
   let outcome = null;
-  const makeMoveAndChangeTurn = (event) => {
+
+  const makeMoveAndChangeTurn = (id) => {
     console.log(outcome);
+    let field = []
+    for(const element of board) {
+      const foundField = element.find((field) => field.id === id)
+      if(foundField){
+        field.push(foundField)
+      }
+    }
     if (!outcome) {
-      if (!event.target.disabled) {
+      if (field.value === null) {
         if (turn === 0) {
           console.log(event.target.value)
           console.log(event.target.value)
-          console.log(initialBoard[0][0])
+          console.log(board[0][0])
           turn = 1;
           event.target.classList.add(styles.FirstPlayerField);
           outcome = checkIfWon();
@@ -128,7 +136,7 @@ const Board = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.board}>
-        {initialBoard.map((singleRow) => (
+        {board.map((singleRow) => (
           <Row
             key={uuid()}
             rowOfFields={singleRow}
