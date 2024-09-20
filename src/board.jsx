@@ -97,7 +97,10 @@ const Board = () => {
     if (!outcome) {
       if (!event.target.disabled) {
         if (turn === 0) {
+          console.log(event.target.value)
           event.target.value = 0;
+          console.log(event.target.value)
+          console.log(initialBoard[0][0])
           turn = 1;
           event.target.disabled = true;
           event.target.classList.add(styles.FirstPlayerField);

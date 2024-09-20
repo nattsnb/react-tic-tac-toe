@@ -10,8 +10,7 @@ const Row = ({ rowOfFields, handleClick }) => {
           key={field.id}
           id={field.id}
           onClick={handleClick}
-          value={field.value}
-          row={rowOfFields}
+          originalField={field}
         />
       ))}
     </div>
