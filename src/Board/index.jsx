@@ -33,30 +33,74 @@ const Board = () => {
   const [board, setBoard] = useState(initialBoard);
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
+  const [winner, setWinner] = useState(null);
 
-  const checkIfWon = () => {
-    /*
-     * 1. Check if won horizontally
-     * 2. Check if won vertically
-     * 3. Check if won diagonal
-     * */
+  const checkIfWonOrDrawAndSetGameStatus = () => {
+    checkIfWonHorizontally();
+    checkIfWonVertically();
+    checkIfWonDiagonally();
+    checkIfDraw();
+  };
+
+  const checkConditionsToWin = (array) => {
+    return allEqual(array) && array[0].value !== null;
+  };
+  const allEqual = (array) =>
+    array.every((object) => object.value === array[0].value);
+
+  const checkIfWonHorizontally = () => {
+    for (const row of Object.values(board)) {
+      if (checkConditionsToWin(row)) {
+        setGameStatus(GameStatus.gameOver);
+        setWinner(row[0].value);
+      }
+    }
+  };
+
+  const checkIfWonVertically = () => {
+    for (let i = 0; i < Object.keys(board).length; i++) {
+      let horizontalResultArray = [];
+      for (const row of Object.values(board)) {
+        horizontalResultArray.push(row[i]);
+      }
+      if (checkConditionsToWin(horizontalResultArray)) {
+        setGameStatus(GameStatus.gameOver);
+        setWinner(horizontalResultArray[0].value);
+      }
+    }
+  };
+
+  const checkIfWonDiagonally = () => {
+    const rightDiagonalResultArray = [
+      Object.values(board)[0][0],
+      Object.values(board)[1][1],
+      Object.values(board)[2][2],
+    ];
+    if (checkConditionsToWin(rightDiagonalResultArray)) {
+      setGameStatus(GameStatus.gameOver);
+      setWinner(rightDiagonalResultArray[0].value);
+    } else {
+      const leftDiagonalResultArray = [
+        Object.values(board)[0][2],
+        Object.values(board)[1][1],
+        Object.values(board)[2][0],
+      ];
+      if (checkConditionsToWin(leftDiagonalResultArray)) {
+        setGameStatus(GameStatus.gameOver);
+        setWinner(leftDiagonalResultArray[0].value);
+      }
+    }
   };
 
   const checkIfDraw = () => {
-    if (
-      board[0][0].value !== null &&
-      board[0][1].value !== null &&
-      board[0][2].value !== null &&
-      board[1][0].value !== null &&
-      board[1][1].value !== null &&
-      board[1][2].value !== null &&
-      board[2][0].value !== null &&
-      board[2][1].value !== null &&
-      board[2][2].value !== null
-    ) {
-      return true;
-    } else {
-      return null;
+    let allResultsArray = [];
+    for (const row of Object.values(board)) {
+      allResultsArray.push(row);
+    }
+    allResultsArray = allResultsArray.flat();
+    allResultsArray = allResultsArray.filter((result) => result.value === null);
+    if (allResultsArray.length === 0) {
+      setGameStatus(GameStatus.draw);
     }
   };
 
@@ -76,10 +120,12 @@ const Board = () => {
       field.value = turn;
       setBoard({ ...board });
       setTurn(Turn.playerTwo);
-      checkIfWon();
+      console.log(gameStatus);
     } else if (!field.disabled && turn === Turn.playerTwo) {
+      field.value = turn;
+      setBoard({ ...board });
       setTurn(Turn.playerOne);
-      checkIfWon();
+      checkIfWonOrDrawAndSetGameStatus();
     }
   };
 
@@ -89,11 +135,11 @@ const Board = () => {
     } else if (gameStatus === GameStatus.draw) {
       showDraw();
     } else {
-      showPlayerWon();
+      showWinner();
     }
   };
   const showDraw = () => {};
-  const showPlayerWon = () => {};
+  const showWinner = () => {};
 
   return (
     <div className={styles.wrapper}>
