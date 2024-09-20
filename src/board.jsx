@@ -9,6 +9,7 @@ const initializeField = () => {
   return {
     id: uuid(),
     value: null,
+    disabled: false,
   };
 };
 
@@ -101,15 +102,20 @@ const Board = () => {
     for(const element of board) {
       const foundField = element.find((field) => field.id === id)
       if(foundField){
-        field.push(foundField)
+        field = foundField
       }
     }
     if (!outcome) {
-      if (field.value === null) {
+      console.log(field.disabled)
+      if (!field.disabled) {
+        console.log("here")
         if (turn === 0) {
-          console.log(event.target.value)
-          console.log(event.target.value)
-          console.log(board[0][0])
+          setBoard(board.map(field =>{
+            if (field.id === id) {
+              return {...field, value: field.value = 0}
+            }
+          }))
+          console.log(board)
           turn = 1;
           event.target.classList.add(styles.FirstPlayerField);
           outcome = checkIfWon();
