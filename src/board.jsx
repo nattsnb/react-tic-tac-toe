@@ -100,7 +100,6 @@ const Board = () => {
       if (!event.target.disabled) {
         if (turn === 0) {
           console.log(event.target.value)
-          event.target.value = changeBoard(0);
           console.log(event.target.value)
           console.log(initialBoard[0][0])
           turn = 1;
