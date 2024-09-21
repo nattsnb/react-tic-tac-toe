@@ -21,6 +21,13 @@ const ClickedFieldClassArgument = {
   secondPlayer: styles.secondPlayerField,
 };
 
+const H1Title = {
+  initial: "Provide names:",
+  game: "Play:",
+  playerWon: `Player Won:`,
+  draw: "Draw!",
+}
+
 const initializeField = () => {
   return {
     id: uuid(),
@@ -45,6 +52,7 @@ const Board = () => {
   );
   const [firstPlayerName, setFirstPlayerName] = useState("Name")
   const [secondPlayerName, setSecondPlayerName] = useState("Name")
+  const [h1Title, setH1Title] = useState(H1Title.initial)
 
   const checkIfWonOrDrawAndSetGameStatus = () => {
     checkIfWonHorizontally();
@@ -64,6 +72,7 @@ const Board = () => {
       if (checkConditionsToWin(row)) {
         setGameStatus(GameStatus.gameOver);
         setWinner(row[0].value);
+        setH1Title(H1Title.playerWon)
       }
     }
   };
@@ -77,6 +86,7 @@ const Board = () => {
       if (checkConditionsToWin(horizontalResultArray)) {
         setGameStatus(GameStatus.gameOver);
         setWinner(horizontalResultArray[0].value);
+        setH1Title(H1Title.playerWon)
       }
     }
   };
@@ -90,6 +100,7 @@ const Board = () => {
     if (checkConditionsToWin(rightDiagonalResultArray)) {
       setGameStatus(GameStatus.gameOver);
       setWinner(rightDiagonalResultArray[0].value);
+      setH1Title(H1Title.playerWon)
     } else {
       const leftDiagonalResultArray = [
         Object.values(board)[0][2],
@@ -99,6 +110,7 @@ const Board = () => {
       if (checkConditionsToWin(leftDiagonalResultArray)) {
         setGameStatus(GameStatus.gameOver);
         setWinner(leftDiagonalResultArray[0].value);
+        setH1Title(H1Title.playerWon)
       }
     }
   };
@@ -112,6 +124,7 @@ const Board = () => {
     allResultsArray = allResultsArray.filter((result) => result.value === null);
     if (allResultsArray.length === 0) {
       setGameStatus(GameStatus.draw);
+      setH1Title(H1Title.draw)
     }
   };
 
@@ -164,7 +177,7 @@ const Board = () => {
 
   const checkIfPlayersNamesAndStartGame = () => {
     if (firstPlayerName !== "" && secondPlayerName !== "") {
-      console.log(firstPlayerName + secondPlayerName)
+      setH1Title(H1Title.game)
     }
   }
 
@@ -181,7 +194,7 @@ const Board = () => {
         ))}
       </div>
       <div className={styles.infoBox}>
-        <h1>Provide names:</h1>
+        <h1>{h1Title}</h1>
         <p>Player 1:</p>
         <input onChange={changeFirstPlayerName} value={firstPlayerName}></input>
         <p>Player 2:</p>
