@@ -15,6 +15,12 @@ const Turn = {
   playerTwo: "playerTwo",
 };
 
+const ClickedFieldClassArgument = {
+  none: styles.emptyField,
+  firstPlayer: styles.firstPlayerField,
+  secondPlayer: styles.secondPlayerField,
+};
+
 const initializeField = () => {
   return {
     id: uuid(),
@@ -34,6 +40,11 @@ const Board = () => {
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
   const [winner, setWinner] = useState(null);
+  const [clickedFieldClassArgument, setClickedFieldClass] = useState(
+    ClickedFieldClassArgument.none,
+  );
+  const [firstPlayerName, setFirstPlayerName] = useState("Name")
+  const [secondPlayerName, setSecondPlayerName] = useState("Name")
 
   const checkIfWonOrDrawAndSetGameStatus = () => {
     checkIfWonHorizontally();
@@ -120,11 +131,13 @@ const Board = () => {
       field.value = turn;
       setBoard({ ...board });
       setTurn(Turn.playerTwo);
-      console.log(gameStatus);
+      setClickedFieldClass(ClickedFieldClassArgument.firstPlayer);
+      checkIfWonOrDrawAndSetGameStatus();
     } else if (!field.disabled && turn === Turn.playerTwo) {
       field.value = turn;
       setBoard({ ...board });
       setTurn(Turn.playerOne);
+      setClickedFieldClass(ClickedFieldClassArgument.secondPlayer);
       checkIfWonOrDrawAndSetGameStatus();
     }
   };
@@ -141,6 +154,20 @@ const Board = () => {
   const showDraw = () => {};
   const showWinner = () => {};
 
+  const changeFirstPlayerName = event => {
+    setFirstPlayerName(event.target.value)
+  }
+
+  const changeSecondPlayerName = event => {
+    setSecondPlayerName(event.target.value)
+  }
+
+  const checkIfPlayersNamesAndStartGame = () => {
+    if (firstPlayerName !== "" && secondPlayerName !== "") {
+      console.log(firstPlayerName + secondPlayerName)
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.board}>
@@ -149,16 +176,17 @@ const Board = () => {
             key={singleRowKey}
             rowOfFields={board[singleRowKey]}
             makeMoveAndChangeTurn={makeMoveAndChangeTurn}
+            clickedFieldClassArgument={clickedFieldClassArgument}
           />
         ))}
       </div>
       <div className={styles.infoBox}>
         <h1>Provide names:</h1>
         <p>Player 1:</p>
-        <input></input>
+        <input onChange={changeFirstPlayerName} value={firstPlayerName}></input>
         <p>Player 2:</p>
-        <input></input>
-        <button>Play</button>
+        <input onChange={changeSecondPlayerName} value={secondPlayerName}></input>
+        <button onClick={checkIfPlayersNamesAndStartGame}>Play</button>
       </div>
     </div>
   );
