@@ -7,7 +7,6 @@ import { createRoot } from "react-dom/client";
 const Intro = () => {
   const [firstPlayerName, setFirstPlayerName] = useState("");
   const [secondPlayerName, setSecondPlayerName] = useState("");
-  const [showBoard, setShowBoard] = useState(false);
   const [isIntroOn, setIsIntroOn] = useState(styles.introWrapperOn);
   const [isBoardOn, setIsBoardOn] = useState(styles.boardWrapperOff);
 

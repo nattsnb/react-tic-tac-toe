@@ -2,7 +2,7 @@ import styles from "./board.module.css";
 import Row from "../Row";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-import Field from "../Field";
+import { BsArrowRightShort } from "react-icons/bs";
 
 const GameStatus = {
   draw: "draw",
@@ -50,6 +50,12 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     ClickedFieldClassArgument.none,
   );
   const [h1Title, setH1Title] = useState(H1Title.game);
+  const [arrowFirstPlayerClass, setArrowFirstPlayerClass] = useState(
+    styles.arrowForPlayerOn,
+  );
+  const [arrowSecondPlayerClass, setArrowSecondPlayerClass] = useState(
+    styles.arrowForPlayerOff,
+  );
 
   const checkIfWonOrDrawAndSetGameStatus = () => {
     checkIfWonHorizontally();
@@ -142,12 +148,16 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       setBoard({ ...board });
       setTurn(Turn.playerTwo);
       setClickedFieldClassArgument(ClickedFieldClassArgument.firstPlayer);
+      setArrowFirstPlayerClass(styles.arrowForPlayerOff);
+      setArrowSecondPlayerClass(styles.arrowForPlayerOn);
       checkIfWonOrDrawAndSetGameStatus();
     } else if (!field.disabled && turn === Turn.playerTwo) {
       field.value = turn;
       setBoard({ ...board });
       setTurn(Turn.playerOne);
       setClickedFieldClassArgument(ClickedFieldClassArgument.secondPlayer);
+      setArrowSecondPlayerClass(styles.arrowForPlayerOff);
+      setArrowFirstPlayerClass(styles.arrowForPlayerOn);
       checkIfWonOrDrawAndSetGameStatus();
     }
   };
@@ -178,8 +188,14 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       </div>
       <div className={styles.infoBox}>
         <h1>{h1Title}</h1>
-        <p>{firstPlayerName}</p>
-        <p>{secondPlayerName}</p>
+        <div className={styles.arrowAndPlayerContainer}>
+          <BsArrowRightShort className={arrowFirstPlayerClass} />
+          <p className={styles.paragraphPlayerName}>{firstPlayerName}</p>
+        </div>
+        <div className={styles.arrowAndPlayerContainer}>
+          <BsArrowRightShort className={arrowSecondPlayerClass} />
+          <p className={styles.paragraphPlayerName}>{secondPlayerName}</p>
+        </div>
       </div>
     </div>
   );

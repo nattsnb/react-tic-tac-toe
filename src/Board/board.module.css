@@ -55,3 +55,27 @@
   justify-content: center;
   border: none;
 }
+
+.arrowAndPlayerContainer {
+  display: flex;
+  flex-direction: row;
+  font-size: 30px;
+  align-items: center;
+}
+
+.arrowForPlayerOn {
+  display: block;
+  font-size: 50px;
+  color: red;
+}
+
+.arrowForPlayerOff {
+  font-size: 50px;
+  visibility: hidden;
+}
+
+.paragraphPlayerName {
+  margin: 0;
+  padding-bottom: 4px;
+  padding-top: 0;
+}
