@@ -22,11 +22,10 @@ const ClickedFieldClassArgument = {
 };
 
 const H1Title = {
-  initial: "Provide names:",
   game: "Play:",
   playerWon: `Player Won:`,
   draw: "Draw!",
-}
+};
 
 const initializeField = () => {
   return {
@@ -42,17 +41,15 @@ const initialBoard = {
   thirdRow: [initializeField(), initializeField(), initializeField()],
 };
 
-const Board = () => {
+const Board = ({ firstPlayerName, secondPlayerName }) => {
   const [board, setBoard] = useState(initialBoard);
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
   const [winner, setWinner] = useState(null);
-  const [clickedFieldClassArgument, setClickedFieldClass] = useState(
+  const [clickedFieldClassArgument, setClickedFieldClassArgument] = useState(
     ClickedFieldClassArgument.none,
   );
-  const [firstPlayerName, setFirstPlayerName] = useState("Name")
-  const [secondPlayerName, setSecondPlayerName] = useState("Name")
-  const [h1Title, setH1Title] = useState(H1Title.initial)
+  const [h1Title, setH1Title] = useState(H1Title.game);
 
   const checkIfWonOrDrawAndSetGameStatus = () => {
     checkIfWonHorizontally();
@@ -72,7 +69,7 @@ const Board = () => {
       if (checkConditionsToWin(row)) {
         setGameStatus(GameStatus.gameOver);
         setWinner(row[0].value);
-        setH1Title(H1Title.playerWon)
+        setH1Title(H1Title.playerWon);
       }
     }
   };
@@ -86,7 +83,7 @@ const Board = () => {
       if (checkConditionsToWin(horizontalResultArray)) {
         setGameStatus(GameStatus.gameOver);
         setWinner(horizontalResultArray[0].value);
-        setH1Title(H1Title.playerWon)
+        setH1Title(H1Title.playerWon);
       }
     }
   };
@@ -100,7 +97,7 @@ const Board = () => {
     if (checkConditionsToWin(rightDiagonalResultArray)) {
       setGameStatus(GameStatus.gameOver);
       setWinner(rightDiagonalResultArray[0].value);
-      setH1Title(H1Title.playerWon)
+      setH1Title(H1Title.playerWon);
     } else {
       const leftDiagonalResultArray = [
         Object.values(board)[0][2],
@@ -110,7 +107,7 @@ const Board = () => {
       if (checkConditionsToWin(leftDiagonalResultArray)) {
         setGameStatus(GameStatus.gameOver);
         setWinner(leftDiagonalResultArray[0].value);
-        setH1Title(H1Title.playerWon)
+        setH1Title(H1Title.playerWon);
       }
     }
   };
@@ -124,7 +121,7 @@ const Board = () => {
     allResultsArray = allResultsArray.filter((result) => result.value === null);
     if (allResultsArray.length === 0) {
       setGameStatus(GameStatus.draw);
-      setH1Title(H1Title.draw)
+      setH1Title(H1Title.draw);
     }
   };
 
@@ -144,13 +141,13 @@ const Board = () => {
       field.value = turn;
       setBoard({ ...board });
       setTurn(Turn.playerTwo);
-      setClickedFieldClass(ClickedFieldClassArgument.firstPlayer);
+      setClickedFieldClassArgument(ClickedFieldClassArgument.firstPlayer);
       checkIfWonOrDrawAndSetGameStatus();
     } else if (!field.disabled && turn === Turn.playerTwo) {
       field.value = turn;
       setBoard({ ...board });
       setTurn(Turn.playerOne);
-      setClickedFieldClass(ClickedFieldClassArgument.secondPlayer);
+      setClickedFieldClassArgument(ClickedFieldClassArgument.secondPlayer);
       checkIfWonOrDrawAndSetGameStatus();
     }
   };
@@ -167,20 +164,6 @@ const Board = () => {
   const showDraw = () => {};
   const showWinner = () => {};
 
-  const changeFirstPlayerName = event => {
-    setFirstPlayerName(event.target.value)
-  }
-
-  const changeSecondPlayerName = event => {
-    setSecondPlayerName(event.target.value)
-  }
-
-  const checkIfPlayersNamesAndStartGame = () => {
-    if (firstPlayerName !== "" && secondPlayerName !== "") {
-      setH1Title(H1Title.game)
-    }
-  }
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.board}>
@@ -195,11 +178,8 @@ const Board = () => {
       </div>
       <div className={styles.infoBox}>
         <h1>{h1Title}</h1>
-        <p>Player 1:</p>
-        <input onChange={changeFirstPlayerName} value={firstPlayerName}></input>
-        <p>Player 2:</p>
-        <input onChange={changeSecondPlayerName} value={secondPlayerName}></input>
-        <button onClick={checkIfPlayersNamesAndStartGame}>Play</button>
+        <p>{firstPlayerName}</p>
+        <p>{secondPlayerName}</p>
       </div>
     </div>
   );

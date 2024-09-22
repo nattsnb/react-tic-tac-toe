@@ -1,0 +1,21 @@
+.introWrapperOn {
+  display: flex;
+  flex-direction: column;
+}
+
+.introWrapperOff {
+  display: none;
+}
+
+.boardWrapperOn {
+  display: block;
+}
+
+.boardWrapperOff {
+  display: none;
+}
+
+.playButton {
+  margin-top: 50px;
+  font-size: 20px;
+}
