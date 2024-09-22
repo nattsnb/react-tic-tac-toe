@@ -161,13 +161,17 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   };
 
   const setArrowToFirstPlayer = () => {
-    setArrowFirstPlayerClass(styles.arrowForPlayerOn);
-    setArrowSecondPlayerClass(styles.arrowForPlayerOff);
+    if(GameStatus === GameStatus.inProgress){
+      setArrowFirstPlayerClass(styles.arrowForPlayerOn);
+      setArrowSecondPlayerClass(styles.arrowForPlayerOff);
+    }
   };
 
   const setArrowToSecondPlayer = () => {
-    setArrowFirstPlayerClass(styles.arrowForPlayerOff);
-    setArrowSecondPlayerClass(styles.arrowForPlayerOn);
+    if(GameStatus === GameStatus.inProgress){
+      setArrowFirstPlayerClass(styles.arrowForPlayerOff);
+      setArrowSecondPlayerClass(styles.arrowForPlayerOn);
+    }
   };
 
   const makeMoveAndChangeTurn = (fieldId) => {
