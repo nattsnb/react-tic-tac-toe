@@ -45,7 +45,6 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   const [board, setBoard] = useState(initialBoard);
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
-  const [winner, setWinner] = useState(null);
   const [clickedFieldClassArgument, setClickedFieldClassArgument] = useState(
     ClickedFieldClassArgument.none,
   );
@@ -74,8 +73,8 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     for (const row of Object.values(board)) {
       if (checkConditionsToWin(row)) {
         setGameStatus(GameStatus.gameOver);
-        setWinner(row[0].value);
         setH1Title(H1Title.playerWon);
+        showWinner();
       }
     }
   };
@@ -88,8 +87,8 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       }
       if (checkConditionsToWin(horizontalResultArray)) {
         setGameStatus(GameStatus.gameOver);
-        setWinner(horizontalResultArray[0].value);
         setH1Title(H1Title.playerWon);
+        showWinner();
       }
     }
   };
@@ -102,8 +101,8 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     ];
     if (checkConditionsToWin(rightDiagonalResultArray)) {
       setGameStatus(GameStatus.gameOver);
-      setWinner(rightDiagonalResultArray[0].value);
       setH1Title(H1Title.playerWon);
+      showWinner();
     } else {
       const leftDiagonalResultArray = [
         Object.values(board)[0][2],
@@ -112,8 +111,8 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       ];
       if (checkConditionsToWin(leftDiagonalResultArray)) {
         setGameStatus(GameStatus.gameOver);
-        setWinner(leftDiagonalResultArray[0].value);
         setH1Title(H1Title.playerWon);
+        showWinner();
       }
     }
   };
@@ -128,6 +127,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     if (allResultsArray.length === 0) {
       setGameStatus(GameStatus.draw);
       setH1Title(H1Title.draw);
+      showDraw();
     }
   };
 
@@ -146,20 +146,28 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     if (!field.disabled && turn === Turn.playerOne) {
       field.value = turn;
       setBoard({ ...board });
-      setTurn(Turn.playerTwo);
       setClickedFieldClassArgument(ClickedFieldClassArgument.firstPlayer);
-      setArrowFirstPlayerClass(styles.arrowForPlayerOff);
-      setArrowSecondPlayerClass(styles.arrowForPlayerOn);
+      setTurn(Turn.playerTwo);
+      setArrowToSecondPlayer();
       checkIfWonOrDrawAndSetGameStatus();
     } else if (!field.disabled && turn === Turn.playerTwo) {
       field.value = turn;
       setBoard({ ...board });
-      setTurn(Turn.playerOne);
       setClickedFieldClassArgument(ClickedFieldClassArgument.secondPlayer);
-      setArrowSecondPlayerClass(styles.arrowForPlayerOff);
-      setArrowFirstPlayerClass(styles.arrowForPlayerOn);
+      setTurn(Turn.playerOne);
+      setArrowToFirstPlayer();
       checkIfWonOrDrawAndSetGameStatus();
     }
+  };
+
+  const setArrowToFirstPlayer = () => {
+    setArrowFirstPlayerClass(styles.arrowForPlayerOn);
+    setArrowSecondPlayerClass(styles.arrowForPlayerOff);
+  };
+
+  const setArrowToSecondPlayer = () => {
+    setArrowFirstPlayerClass(styles.arrowForPlayerOff);
+    setArrowSecondPlayerClass(styles.arrowForPlayerOn);
   };
 
   const makeMoveAndChangeTurn = (fieldId) => {
@@ -171,8 +179,17 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       showWinner();
     }
   };
-  const showDraw = () => {};
-  const showWinner = () => {};
+  const showDraw = () => {
+    setArrowSecondPlayerClass(styles.arrowForPlayerOff);
+    setArrowFirstPlayerClass(styles.arrowForPlayerOff);
+  };
+  const showWinner = () => {
+    if (turn === Turn.playerOne) {
+      setArrowToFirstPlayer();
+    } else {
+      setArrowToSecondPlayer();
+    }
+  };
 
   return (
     <div className={styles.wrapper}>

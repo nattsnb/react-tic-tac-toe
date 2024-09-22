@@ -20,7 +20,6 @@ const Intro = () => {
 
   const checkIfPlayersNamesAndStartGame = () => {
     if (firstPlayerName !== "" && secondPlayerName !== "") {
-      console.log(firstPlayerName + secondPlayerName);
       setIsIntroOn(styles.introWrapperOff);
       setIsBoardOn(styles.boardWrapperOn);
     }
