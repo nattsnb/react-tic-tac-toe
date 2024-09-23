@@ -15,12 +15,6 @@ const Turn = {
   playerTwo: "playerTwo",
 };
 
-const ClickedFieldClassArgument = {
-  none: styles.emptyField,
-  firstPlayer: styles.firstPlayerField,
-  secondPlayer: styles.secondPlayerField,
-};
-
 const H1Title = {
   game: "Play:",
   playerWon: `Player Won:`,
@@ -45,9 +39,6 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   const [board, setBoard] = useState(initialBoard);
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
-  const [clickedFieldClassArgument, setClickedFieldClassArgument] = useState(
-    ClickedFieldClassArgument.none,
-  );
   const [h1Title, setH1Title] = useState(H1Title.game);
   const [arrowFirstPlayerClass, setArrowFirstPlayerClass] = useState(
     styles.arrowForPlayerOn,
@@ -146,14 +137,12 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     if (!field.disabled && turn === Turn.playerOne) {
       field.value = turn;
       setBoard({ ...board });
-      setClickedFieldClassArgument(ClickedFieldClassArgument.firstPlayer);
       setTurn(Turn.playerTwo);
       setArrowToSecondPlayer();
       checkIfWonOrDrawAndSetGameStatus();
     } else if (!field.disabled && turn === Turn.playerTwo) {
       field.value = turn;
       setBoard({ ...board });
-      setClickedFieldClassArgument(ClickedFieldClassArgument.secondPlayer);
       setTurn(Turn.playerOne);
       setArrowToFirstPlayer();
       checkIfWonOrDrawAndSetGameStatus();
@@ -161,14 +150,14 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   };
 
   const setArrowToFirstPlayer = () => {
-    if(GameStatus === GameStatus.inProgress){
+    if (gameStatus === GameStatus.inProgress) {
       setArrowFirstPlayerClass(styles.arrowForPlayerOn);
       setArrowSecondPlayerClass(styles.arrowForPlayerOff);
     }
   };
 
   const setArrowToSecondPlayer = () => {
-    if(GameStatus === GameStatus.inProgress){
+    if (gameStatus === GameStatus.inProgress) {
       setArrowFirstPlayerClass(styles.arrowForPlayerOff);
       setArrowSecondPlayerClass(styles.arrowForPlayerOn);
     }
@@ -203,7 +192,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
             key={singleRowKey}
             rowOfFields={board[singleRowKey]}
             makeMoveAndChangeTurn={makeMoveAndChangeTurn}
-            clickedFieldClassArgument={clickedFieldClassArgument}
+            turn={turn}
           />
         ))}
       </div>

@@ -1,0 +1,32 @@
+.firstPlayerField {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-image: url("../images/cross.png");
+}
+
+.secondPlayerField {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-image: url("../images/circle.png");
+}
+
+.emptyField {
+  display: flex;
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
