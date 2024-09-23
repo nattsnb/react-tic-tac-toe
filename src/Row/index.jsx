@@ -1,7 +1,7 @@
 import styles from "./row.module.css";
 import Field from "../Field";
 
-const Row = ({ rowOfFields, makeMoveAndChangeTurn, turn }) => {
+const Row = ({ rowOfFields, makeMoveAndChangeTurn, turn, gameStatus }) => {
   return (
     <div className={styles.row}>
       {rowOfFields.map((field) => (
@@ -11,6 +11,7 @@ const Row = ({ rowOfFields, makeMoveAndChangeTurn, turn }) => {
           fieldValue={field.value}
           makeMoveAndChangeTurn={makeMoveAndChangeTurn}
           turn={turn}
+          gameStatus={gameStatus}
         />
       ))}
     </div>

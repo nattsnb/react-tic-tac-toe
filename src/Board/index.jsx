@@ -193,6 +193,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
             rowOfFields={board[singleRowKey]}
             makeMoveAndChangeTurn={makeMoveAndChangeTurn}
             turn={turn}
+            gameStatus={gameStatus}
           />
         ))}
       </div>

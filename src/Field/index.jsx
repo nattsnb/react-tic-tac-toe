@@ -12,15 +12,21 @@ const FieldClassArgument = {
   secondPlayer: styles.secondPlayerField,
 };
 
-const Field = ({ id, fieldValue, makeMoveAndChangeTurn, turn }) => {
+const GameStatus = {
+  draw: "draw",
+  inProgress: "inProgress",
+  gameOver: "gameOver",
+};
+
+const Field = ({ id, fieldValue, makeMoveAndChangeTurn, turn, gameStatus }) => {
   const [fieldClassArgument, setFieldClassArgument] = useState(
     FieldClassArgument.none,
   );
   const handleClick = () => {
     makeMoveAndChangeTurn(id);
-    if (turn === Turn.playerOne) {
+    if (turn === Turn.playerOne && gameStatus === GameStatus.inProgress) {
       setFieldClassArgument(FieldClassArgument.firstPlayer);
-    } else {
+    } else if (gameStatus === GameStatus.inProgress) {
       setFieldClassArgument(FieldClassArgument.secondPlayer);
     }
   };
