@@ -13,6 +13,7 @@ const GameStatus = {
 const Turn = {
   playerOne: "playerOne",
   playerTwo: "playerTwo",
+  none: null,
 };
 
 const H1Title = {
@@ -134,53 +135,45 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
 
   const move = (fieldId) => {
     const field = getFieldById(fieldId);
+    field.value = turn;
     if (!field.disabled && turn === Turn.playerOne) {
-      field.value = turn;
-      setBoard({ ...board });
       setTurn(Turn.playerTwo);
-      setArrowToSecondPlayer();
-      checkIfWonOrDrawAndSetGameStatus();
+      // setArrowToSecondPlayer();
     } else if (!field.disabled && turn === Turn.playerTwo) {
-      field.value = turn;
-      setBoard({ ...board });
       setTurn(Turn.playerOne);
-      setArrowToFirstPlayer();
-      checkIfWonOrDrawAndSetGameStatus();
+      // setArrowToFirstPlayer();
     }
+    setBoard({ ...board });
+    checkIfWonOrDrawAndSetGameStatus();
   };
 
-  const setArrowToFirstPlayer = () => {
-    if (gameStatus === GameStatus.inProgress) {
-      setArrowFirstPlayerClass(styles.arrowForPlayerOn);
-      setArrowSecondPlayerClass(styles.arrowForPlayerOff);
-    }
-  };
-
-  const setArrowToSecondPlayer = () => {
-    if (gameStatus === GameStatus.inProgress) {
-      setArrowFirstPlayerClass(styles.arrowForPlayerOff);
-      setArrowSecondPlayerClass(styles.arrowForPlayerOn);
-    }
-  };
+  // const setArrowToFirstPlayer = () => {
+  //   if (gameStatus === GameStatus.inProgress) {
+  //     setArrowFirstPlayerClass(styles.arrowForPlayerOn);
+  //     setArrowSecondPlayerClass(styles.arrowForPlayerOff);
+  //   }
+  // };
+  //
+  // const setArrowToSecondPlayer = () => {
+  //   if (gameStatus === GameStatus.inProgress) {
+  //     setArrowFirstPlayerClass(styles.arrowForPlayerOff);
+  //     setArrowSecondPlayerClass(styles.arrowForPlayerOn);
+  //   }
+  // };
 
   const makeMoveAndChangeTurn = (fieldId) => {
     if (gameStatus === GameStatus.inProgress) {
       move(fieldId);
-    } else if (gameStatus === GameStatus.draw) {
-      showDraw();
-    } else {
-      showWinner();
     }
   };
   const showDraw = () => {
-    setArrowSecondPlayerClass(styles.arrowForPlayerOff);
-    setArrowFirstPlayerClass(styles.arrowForPlayerOff);
+    setTurn(Turn.none)
   };
   const showWinner = () => {
-    if (turn === Turn.playerOne) {
-      setArrowToFirstPlayer();
+    if (turn === Turn.playerTwo) {
+      setTurn(Turn.playerOne)
     } else {
-      setArrowToSecondPlayer();
+      setTurn(Turn.playerTwo)
     }
   };
 
@@ -200,11 +193,11 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       <div className={styles.infoBox}>
         <h1>{h1Title}</h1>
         <div className={styles.arrowAndPlayerContainer}>
-          <BsArrowRightShort className={arrowFirstPlayerClass} />
+          <BsArrowRightShort className={turn === Turn.playerOne ? styles.arrowForPlayerOn : styles.arrowForPlayerOff} />
           <p className={styles.paragraphPlayerName}>{firstPlayerName}</p>
-        </div>
+          </div>
         <div className={styles.arrowAndPlayerContainer}>
-          <BsArrowRightShort className={arrowSecondPlayerClass} />
+          <BsArrowRightShort className={turn === Turn.playerTwo ? styles.arrowForPlayerOn : styles.arrowForPlayerOff} />
           <p className={styles.paragraphPlayerName}>{secondPlayerName}</p>
         </div>
       </div>
