@@ -41,12 +41,6 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
   const [h1Title, setH1Title] = useState(H1Title.game);
-  const [arrowFirstPlayerClass, setArrowFirstPlayerClass] = useState(
-    styles.arrowForPlayerOn,
-  );
-  const [arrowSecondPlayerClass, setArrowSecondPlayerClass] = useState(
-    styles.arrowForPlayerOff,
-  );
 
   const checkIfWonOrDrawAndSetGameStatus = () => {
     checkIfWonHorizontally();
@@ -55,7 +49,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     checkIfDraw();
   };
 
-  const checkConditionsToWin = (array) => {
+  const checkIfFieldsValueAllEqualAndNotNull = (array) => {
     return allEqual(array) && array[0].value !== null;
   };
   const allEqual = (array) =>
@@ -63,7 +57,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
 
   const checkIfWonHorizontally = () => {
     for (const row of Object.values(board)) {
-      if (checkConditionsToWin(row)) {
+      if (checkIfFieldsValueAllEqualAndNotNull(row)) {
         setGameStatus(GameStatus.gameOver);
         setH1Title(H1Title.playerWon);
         showWinner();
@@ -73,16 +67,24 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
 
   const checkIfWonVertically = () => {
     for (let i = 0; i < Object.keys(board).length; i++) {
-      let horizontalResultArray = [];
-      for (const row of Object.values(board)) {
-        horizontalResultArray.push(row[i]);
-      }
-      if (checkConditionsToWin(horizontalResultArray)) {
+      if (
+        checkIfFieldsValueAllEqualAndNotNull(
+          produceArrayWithFieldsValuesInColumn(board, i),
+        )
+      ) {
         setGameStatus(GameStatus.gameOver);
         setH1Title(H1Title.playerWon);
         showWinner();
       }
     }
+  };
+
+  const produceArrayWithFieldsValuesInColumn = (board, i) => {
+    let horizontalResultArray = [];
+    for (const row of Object.values(board)) {
+      horizontalResultArray.push(row[i]);
+    }
+    return horizontalResultArray;
   };
 
   const checkIfWonDiagonally = () => {
@@ -91,7 +93,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       Object.values(board)[1][1],
       Object.values(board)[2][2],
     ];
-    if (checkConditionsToWin(rightDiagonalResultArray)) {
+    if (checkIfFieldsValueAllEqualAndNotNull(rightDiagonalResultArray)) {
       setGameStatus(GameStatus.gameOver);
       setH1Title(H1Title.playerWon);
       showWinner();
@@ -101,7 +103,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
         Object.values(board)[1][1],
         Object.values(board)[2][0],
       ];
-      if (checkConditionsToWin(leftDiagonalResultArray)) {
+      if (checkIfFieldsValueAllEqualAndNotNull(leftDiagonalResultArray)) {
         setGameStatus(GameStatus.gameOver);
         setH1Title(H1Title.playerWon);
         showWinner();
@@ -138,28 +140,12 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     field.value = turn;
     if (!field.disabled && turn === Turn.playerOne) {
       setTurn(Turn.playerTwo);
-      // setArrowToSecondPlayer();
     } else if (!field.disabled && turn === Turn.playerTwo) {
       setTurn(Turn.playerOne);
-      // setArrowToFirstPlayer();
     }
     setBoard({ ...board });
     checkIfWonOrDrawAndSetGameStatus();
   };
-
-  // const setArrowToFirstPlayer = () => {
-  //   if (gameStatus === GameStatus.inProgress) {
-  //     setArrowFirstPlayerClass(styles.arrowForPlayerOn);
-  //     setArrowSecondPlayerClass(styles.arrowForPlayerOff);
-  //   }
-  // };
-  //
-  // const setArrowToSecondPlayer = () => {
-  //   if (gameStatus === GameStatus.inProgress) {
-  //     setArrowFirstPlayerClass(styles.arrowForPlayerOff);
-  //     setArrowSecondPlayerClass(styles.arrowForPlayerOn);
-  //   }
-  // };
 
   const makeMoveAndChangeTurn = (fieldId) => {
     if (gameStatus === GameStatus.inProgress) {
@@ -167,13 +153,13 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     }
   };
   const showDraw = () => {
-    setTurn(Turn.none)
+    setTurn(Turn.none);
   };
   const showWinner = () => {
     if (turn === Turn.playerTwo) {
-      setTurn(Turn.playerOne)
+      setTurn(Turn.playerOne);
     } else {
-      setTurn(Turn.playerTwo)
+      setTurn(Turn.playerTwo);
     }
   };
 
@@ -193,11 +179,23 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       <div className={styles.infoBox}>
         <h1>{h1Title}</h1>
         <div className={styles.arrowAndPlayerContainer}>
-          <BsArrowRightShort className={turn === Turn.playerOne ? styles.arrowForPlayerOn : styles.arrowForPlayerOff} />
+          <BsArrowRightShort
+            className={
+              turn === Turn.playerOne
+                ? styles.arrowForPlayerOn
+                : styles.arrowForPlayerOff
+            }
+          />
           <p className={styles.paragraphPlayerName}>{firstPlayerName}</p>
-          </div>
+        </div>
         <div className={styles.arrowAndPlayerContainer}>
-          <BsArrowRightShort className={turn === Turn.playerTwo ? styles.arrowForPlayerOn : styles.arrowForPlayerOff} />
+          <BsArrowRightShort
+            className={
+              turn === Turn.playerTwo
+                ? styles.arrowForPlayerOn
+                : styles.arrowForPlayerOff
+            }
+          />
           <p className={styles.paragraphPlayerName}>{secondPlayerName}</p>
         </div>
       </div>
