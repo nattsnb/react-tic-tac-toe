@@ -46,3 +46,22 @@
   padding-bottom: 4px;
   padding-top: 0;
 }
+
+.winnerMessageOn {
+  font-size: 40px;
+  color: red;
+  padding-left: 40px;
+
+}
+
+.winnerMessageOff {
+  visibility: hidden;
+}
+
+.playerNamesOn{
+
+}
+
+.playerNamesOff{
+  visibility: hidden;
+}

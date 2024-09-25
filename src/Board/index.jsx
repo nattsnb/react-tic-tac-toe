@@ -41,6 +41,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
   const [h1Title, setH1Title] = useState(H1Title.game);
+  const [winnerName, setWinnerName] = useState(null)
 
   const checkIfWonOrDrawAndSetGameStatus = () => {
     checkIfWonHorizontally();
@@ -60,31 +61,30 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       if (checkIfFieldsValueAllEqualAndNotNull(row)) {
         setGameStatus(GameStatus.gameOver);
         setH1Title(H1Title.playerWon);
-        showWinner();
+        showWinner(row[0].value);
       }
     }
   };
 
   const checkIfWonVertically = () => {
     for (let i = 0; i < Object.keys(board).length; i++) {
+      const verticalResultsArray = produceArrayWithFieldsValuesInColumn(board, i)
       if (
-        checkIfFieldsValueAllEqualAndNotNull(
-          produceArrayWithFieldsValuesInColumn(board, i),
-        )
+        checkIfFieldsValueAllEqualAndNotNull(verticalResultsArray)
       ) {
         setGameStatus(GameStatus.gameOver);
         setH1Title(H1Title.playerWon);
-        showWinner();
+        showWinner(verticalResultsArray[0].value);
       }
     }
   };
 
   const produceArrayWithFieldsValuesInColumn = (board, i) => {
-    let horizontalResultArray = [];
+    let verticalResultArray = [];
     for (const row of Object.values(board)) {
-      horizontalResultArray.push(row[i]);
+      verticalResultArray.push(row[i]);
     }
-    return horizontalResultArray;
+    return verticalResultArray;
   };
 
   const checkIfWonDiagonally = () => {
@@ -96,7 +96,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
     if (checkIfFieldsValueAllEqualAndNotNull(rightDiagonalResultArray)) {
       setGameStatus(GameStatus.gameOver);
       setH1Title(H1Title.playerWon);
-      showWinner();
+      showWinner(rightDiagonalResultArray[0].value);
     } else {
       const leftDiagonalResultArray = [
         Object.values(board)[0][2],
@@ -106,7 +106,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       if (checkIfFieldsValueAllEqualAndNotNull(leftDiagonalResultArray)) {
         setGameStatus(GameStatus.gameOver);
         setH1Title(H1Title.playerWon);
-        showWinner();
+        showWinner(leftDiagonalResultArray[0].value);
       }
     }
   };
@@ -155,11 +155,12 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   const showDraw = () => {
     setTurn(Turn.none);
   };
-  const showWinner = () => {
-    if (turn === Turn.playerTwo) {
-      setTurn(Turn.playerOne);
-    } else {
-      setTurn(Turn.playerTwo);
+  const showWinner = (winnerFieldValue) => {
+    setTurn(Turn.none);
+    if(winnerFieldValue === "playerOne"){
+      setWinnerName(firstPlayerName)
+    }else{
+      setWinnerName(secondPlayerName)
     }
   };
 
@@ -178,26 +179,37 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       </div>
       <div className={styles.infoBox}>
         <h1>{h1Title}</h1>
-        <div className={styles.arrowAndPlayerContainer}>
-          <BsArrowRightShort
-            className={
-              turn === Turn.playerOne
-                ? styles.arrowForPlayerOn
-                : styles.arrowForPlayerOff
-            }
-          />
-          <p className={styles.paragraphPlayerName}>{firstPlayerName}</p>
+        <div className={
+          gameStatus === GameStatus.inProgress
+              ? styles.playerNamesOn
+              : styles.playerNamesOff
+        }>
+          <div className={styles.arrowAndPlayerContainer}>
+            <BsArrowRightShort
+                className={
+                  turn === Turn.playerOne
+                      ? styles.arrowForPlayerOn
+                      : styles.arrowForPlayerOff
+                }
+            />
+            <p className={styles.paragraphPlayerName}>{firstPlayerName}</p>
+          </div>
+          <div className={styles.arrowAndPlayerContainer}>
+            <BsArrowRightShort
+                className={
+                  turn === Turn.playerTwo
+                      ? styles.arrowForPlayerOn
+                      : styles.arrowForPlayerOff
+                }
+            />
+            <p className={styles.paragraphPlayerName}>{secondPlayerName}</p>
+          </div>
         </div>
-        <div className={styles.arrowAndPlayerContainer}>
-          <BsArrowRightShort
-            className={
-              turn === Turn.playerTwo
-                ? styles.arrowForPlayerOn
-                : styles.arrowForPlayerOff
-            }
-          />
-          <p className={styles.paragraphPlayerName}>{secondPlayerName}</p>
-        </div>
+        <div className={
+          gameStatus === GameStatus.gameOver
+              ? styles.winnerMessageOn
+              : styles.winnerMessageOff
+        }>{winnerName} won!</div>
       </div>
     </div>
   );
