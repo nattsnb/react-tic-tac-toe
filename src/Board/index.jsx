@@ -41,7 +41,7 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   const [gameStatus, setGameStatus] = useState(GameStatus.inProgress);
   const [turn, setTurn] = useState(Turn.playerOne);
   const [h1Title, setH1Title] = useState(H1Title.game);
-  const [winnerName, setWinnerName] = useState(null)
+  const [winnerName, setWinnerName] = useState(null);
 
   const checkIfWonOrDrawAndSetGameStatus = () => {
     checkIfWonHorizontally();
@@ -68,10 +68,11 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
 
   const checkIfWonVertically = () => {
     for (let i = 0; i < Object.keys(board).length; i++) {
-      const verticalResultsArray = produceArrayWithFieldsValuesInColumn(board, i)
-      if (
-        checkIfFieldsValueAllEqualAndNotNull(verticalResultsArray)
-      ) {
+      const verticalResultsArray = produceArrayWithFieldsValuesInColumn(
+        board,
+        i,
+      );
+      if (checkIfFieldsValueAllEqualAndNotNull(verticalResultsArray)) {
         setGameStatus(GameStatus.gameOver);
         setH1Title(H1Title.playerWon);
         showWinner(verticalResultsArray[0].value);
@@ -157,10 +158,10 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
   };
   const showWinner = (winnerFieldValue) => {
     setTurn(Turn.none);
-    if(winnerFieldValue === "playerOne"){
-      setWinnerName(firstPlayerName)
-    }else{
-      setWinnerName(secondPlayerName)
+    if (winnerFieldValue === "playerOne") {
+      setWinnerName(firstPlayerName);
+    } else {
+      setWinnerName(secondPlayerName);
     }
   };
 
@@ -179,37 +180,28 @@ const Board = ({ firstPlayerName, secondPlayerName }) => {
       </div>
       <div className={styles.infoBox}>
         <h1>{h1Title}</h1>
-        <div className={
-          gameStatus === GameStatus.inProgress
-              ? styles.playerNamesOn
-              : styles.playerNamesOff
-        }>
-          <div className={styles.arrowAndPlayerContainer}>
-            <BsArrowRightShort
-                className={
-                  turn === Turn.playerOne
-                      ? styles.arrowForPlayerOn
-                      : styles.arrowForPlayerOff
-                }
-            />
-            <p className={styles.paragraphPlayerName}>{firstPlayerName}</p>
+        {!winnerName ? (
+          <div>
+            <div className={styles.arrowAndPlayerContainer}>
+              {turn === Turn.playerOne ? (
+                <BsArrowRightShort className={styles.arrowForPlayerOn} />
+              ) : (
+                <BsArrowRightShort className={styles.arrowForPlayerOff} />
+              )}
+              <p className={styles.paragraphPlayerName}>{firstPlayerName}</p>
+            </div>
+            <div className={styles.arrowAndPlayerContainer}>
+              {turn === Turn.playerTwo ? (
+                <BsArrowRightShort className={styles.arrowForPlayerOn} />
+              ) : (
+                <BsArrowRightShort className={styles.arrowForPlayerOff} />
+              )}
+              <p className={styles.paragraphPlayerName}>{secondPlayerName}</p>
+            </div>
           </div>
-          <div className={styles.arrowAndPlayerContainer}>
-            <BsArrowRightShort
-                className={
-                  turn === Turn.playerTwo
-                      ? styles.arrowForPlayerOn
-                      : styles.arrowForPlayerOff
-                }
-            />
-            <p className={styles.paragraphPlayerName}>{secondPlayerName}</p>
-          </div>
-        </div>
-        <div className={
-          gameStatus === GameStatus.gameOver
-              ? styles.winnerMessageOn
-              : styles.winnerMessageOff
-        }>{winnerName} won!</div>
+        ) : (
+          <div className={styles.winnerMessage}>{winnerName}!</div>
+        )}
       </div>
     </div>
   );
