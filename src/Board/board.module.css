@@ -1,0 +1,54 @@
+.board {
+  background-color: black;
+  width: 606px;
+  height: 606px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.row {
+  background-color: darkolivegreen;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.infoBox {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 200px;
+}
+
+.arrowAndPlayerContainer {
+  display: flex;
+  flex-direction: row;
+  font-size: 30px;
+  align-items: center;
+}
+
+.arrowForPlayerOn {
+  display: block;
+  font-size: 50px;
+  color: red;
+}
+
+.arrowForPlayerOff {
+  font-size: 50px;
+  visibility: hidden;
+}
+
+.paragraphPlayerName {
+  margin: 0;
+  padding-bottom: 4px;
+  padding-top: 0;
+}
+
+.winnerMessage {
+  font-size: 40px;
+  color: red;
+  padding-left: 40px;
+}
